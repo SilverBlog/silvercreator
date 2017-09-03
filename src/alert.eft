@@ -1,0 +1,9 @@
+>div.{{style.top_box}}.{{shown}}
+	>div.{{style.cancle}}
+		@click = hide
+	>div.{{style.key_input}}
+		>h3
+			.{{info}}
+		>div.{{style.btn}}
+			@click = next
+			.Continue

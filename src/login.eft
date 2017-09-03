@@ -1,0 +1,14 @@
+>div.{{style.login}}
+	>div.{{style.loginbox}}
+		>h1
+			>span
+				.Silver Creator
+				>small
+					.alpha
+		>input
+			#placeholder = Input your site address here
+			@keypress.13 = enter:{{address}}
+			%value = {{address}}
+		>div.{{style.btn}}
+			@click = enter:{{address}}
+			.Enter

@@ -1,0 +1,16 @@
+>div.{{style.editor}}
+	>div.{{style.container}}
+		>input.{{style.title}}
+			#placeholder = Title*
+			%value = {{title}}
+		>input.{{style.name}}
+			#placeholder = name
+			%value = {{name}}
+		>textarea.{{style.mde}}#editor
+		>div.{{style.btns}}
+			>span
+				@click = cancle
+				.Cancle
+			>span
+				@click = save:{{index}}
+				.Save

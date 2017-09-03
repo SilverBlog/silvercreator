@@ -1,0 +1,5 @@
+>div.{{style.right}}
+	>div.{{style.btn}}.material-icons
+		#title = New Post
+		@click = newPost
+		.add

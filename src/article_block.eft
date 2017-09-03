@@ -1,0 +1,16 @@
+>div.{{style.article_block}}
+	#style = border-bottom-color: {{color}};
+	>div.{{style.title}}
+		@click = open:{{name}}
+		.{{title}}
+	>div.{{style.time}}
+		.{{time}}
+	>p.{{style.excerpt}}
+		.{{excerpt}}
+	>div.{{style.action_box}}
+		>div.{{style.edit}}.{{style.btn}}.material-icons
+			@click = editPost:{{index}}
+			.edit
+		>div.{{style.delete}}.{{style.btn}}.material-icons
+			@click = deletePost:{{index}}
+			.delete_forever

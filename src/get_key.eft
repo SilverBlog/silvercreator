@@ -1,0 +1,12 @@
+>div.{{style.top_box}}.{{shown}}
+	>div.{{style.cancle}}
+		@click = hide
+	>div.{{style.key_input}}
+		>input
+			@keypress.13 = next:{{key}}
+			#type = password
+			#placeholder = {{placeholder = Enter your pass phrase here}}
+			%value = {{key}}
+		>div.{{style.btn}}
+			@click = next:{{key}}
+			.Continue
