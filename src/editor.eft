@@ -9,8 +9,8 @@
 		>textarea.{{style.mde}}#editor
 		>div.{{style.btns}}
 			>span
-				@click = cancle
-				.Cancle
+				@click = cancel
+				.Cancel
 			>span
 				@click = save:{{index}}
 				.Save

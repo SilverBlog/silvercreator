@@ -16,7 +16,7 @@ const exitEditor = () => {
 const editor = new tpl({
 	$data: {style},
 	$methods: {
-		cancle() {
+		cancel() {
 			popAlert('Are you sure to leave?', exitEditor)
 		}
 	}
