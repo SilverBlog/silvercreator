@@ -1,5 +1,6 @@
 input, button {
 	-webkit-appearance: none;
+	border-radius: 0;
 }
 
 a, input, button {
@@ -109,6 +110,7 @@ a, input, button {
 	transform: scale3d(1, 1, 1);
 	transition: box-shadow .2s, transform .2s;
 	cursor: default;
+	-webkit-touch-callout: none;
 	overflow: hidden;
 	& .title {
 		height:  26px;

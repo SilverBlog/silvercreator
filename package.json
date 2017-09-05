@@ -44,7 +44,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-postcss": "^0.5.4",
     "rollup-plugin-progress": "^0.4.0",
-    "rollup-plugin-replace": "^1.2.1",
+    "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-serve": "^0.4.2",
     "rollup-plugin-string": "^2.0.2",
     "rollup-plugin-uglify": "^2.0.1"
@@ -53,7 +53,7 @@
     "axios": "^0.16.2",
     "blueimp-md5": "^2.10.0",
     "ef-core": "^0.4.1-beta.2",
-    "neonclear": "0.1.0-alpha.1",
+    "neonclear": "0.1.0-alpha.2",
     "simplemde": "^1.11.2"
   }
 }
