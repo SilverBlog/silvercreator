@@ -7,12 +7,27 @@ import edit from './editor.js'
 import md5 from 'blueimp-md5'
 import axios from 'axios'
 
-const editPost = ({value}) => {
+const editPost = ({state: {$data}, value}) => {
+	const saved = sessionStorage.getItem(`smde_${$data.name}`) || localStorage.getItem(`smde_${$data.name}`)
+	if (saved) {
+		localStorage.setItem(`smde_${$data.name}`, saved)
+		return edit({
+			type: 'post',
+			index: value,
+			data: $data,
+			useAutoSave: true
+		})
+	}
 	axios.post(`${localStorage.getItem('site')}/control/get_post_content`, {
 		'post_id': parseInt(value, 10)
 	})
 	.then(resp => resp.data)
-	.then(data => edit('post', value, data))
+	.then(data => edit({
+		type: 'post',
+		index: value,
+		data,
+		useAutoSave: false
+	}))
 	.catch((err) => {
 		popAlert(err.message)
 	})

@@ -6,7 +6,7 @@
 		>input.{{style.name}}
 			#placeholder = name
 			%value = {{name}}
-		>textarea.{{style.mde}}#editor
+		>textarea#editor
 		>div.{{style.btns}}
 			>span
 				@click = cancel
