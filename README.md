@@ -9,7 +9,7 @@ Please make sure your server response with a header `Access-Control-Allow-Origin
 
 ## Run a test
 ```
-$ git clone https://github.com/ClassicOldSong/ef.js.org.git
+$ git clone https://github.com/SilverBlogTeam/SilverCreato.git
 $ cd SilverCreator
 $ npm install
 $ npm run dev
@@ -18,7 +18,7 @@ Then you can test it out in the opening browser window.
 
 ## Build from source
 ```
-$ git clone https://github.com/ClassicOldSong/ef.js.org.git
+$ git clone https://github.com/SilverBlogTeam/SilverCreato.git
 $ cd SilverCreator
 $ npm install
 $ npm run build
