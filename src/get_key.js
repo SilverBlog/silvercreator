@@ -32,6 +32,7 @@ const showKeyBox = () => {
 const getKey = (cb) => {
 	keyBox.$methods.next = next
 	keyBox.$methods.cb = cb
+	keyBox.$data.key = ''
 	onNextRender(showKeyBox)
 	body.contents.push(keyBox)
 }

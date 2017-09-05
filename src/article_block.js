@@ -43,8 +43,8 @@ const deletePost = ({state, value}) => {
 			})
 			.then(resp => resp.data)
 			.then((data) => {
-				if (data.status) return getPosts()
-				getKey(del)
+				if (data.status) return getPosts(() => popAlert('Deleted successfully.'))
+				popAlert('Wrong password, please try again.', () => getKey(del))
 			})
 			.catch((err) => {
 				popAlert(err.message)

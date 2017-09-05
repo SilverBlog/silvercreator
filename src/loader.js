@@ -67,7 +67,7 @@ const contents = [
 	drawer
 ]
 
-const getPosts = () => {
+const getPosts = (cb) => {
 	axios.post(`${site}/control/get_post_list`)
 	.then(resp => resp.data)
 	.then((data) => {
@@ -81,6 +81,7 @@ const getPosts = () => {
 			page.contents.push(new articleBlock(data[i]))
 		}
 		exec()
+		if (cb) return cb()
 	})
 	.catch((err) => {
 		popAlert(err.message)
@@ -112,7 +113,7 @@ const editPage = (data, index) => {
 	})
 }
 
-const getPages = () => {
+const getPages = (cb) => {
 	axios.post(`${site}/control/get_menu_list`)
 	.then(resp => resp.data)
 	.then((data) => {
@@ -130,6 +131,7 @@ const getPages = () => {
 			}))
 		}
 		exec()
+		if (cb) return cb()
 	})
 	.catch((err) => {
 		popAlert(err.message)

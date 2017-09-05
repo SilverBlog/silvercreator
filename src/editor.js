@@ -43,10 +43,11 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 				state.mde.clearAutosavedValue()
 				state.mde.toTextArea()
 				state.mde = null
-				if (type === 'post') return getPosts()
-				return getPages()
+				if (type === 'post') return getPosts(() => popAlert('Post updated successfully.'))
+				getPosts()
+				return getPages(() => popAlert('Page updated successfully.'))
 			}
-			getKey(save)
+			popAlert('Wrong password, please try again.', () => getKey(save))
 		})
 		.catch((err) => {
 			popAlert(err.message)
@@ -75,7 +76,7 @@ const edit = ({type, index, data, useAutoSave, newPost}) => {
 	editor.$data.type = type
 	editor.$data.index = index
 	editor.mde = new SimpleMDE(editorConfig)
-	if (newPost) editor.mde.value('')
+	if (newPost && !useAutoSave) editor.mde.value('')
 	body.contents = [editor]
 	exec()
 }
