@@ -29,11 +29,20 @@ const header = new Header({
 		$data: {style},
 		$methods: {
 			newPost() {
-				edit('post', -1, {
-					title: '',
-					name: '',
-					content: ''
-				})
+				const saved = localStorage.getItem('smde___$$autosave_for_new_post$$__')
+				const editorConfig = {
+					type: 'post',
+					index: -1,
+					data: {
+						title: '',
+						name: '',
+						content: ''
+					},
+					useAutoSave: true,
+					newPost: true
+				}
+				if (!saved) editorConfig.useAutoSave = false
+				edit(editorConfig)
 			}
 		}
 	})
@@ -78,12 +87,26 @@ const getPosts = () => {
 	})
 }
 
-const editPage = (index) => {
+const editPage = (data, index) => {
+	const saved = localStorage.getItem(`smde_${data.name}`)
+	if (saved) {
+		return edit({
+			type: 'menu',
+			index,
+			data,
+			useAutoSave: true
+		})
+	}
 	axios.post(`${site}/control/get_menu_content`, {
 		'post_id': parseInt(index, 10)
 	})
 	.then(resp => resp.data)
-	.then(data => edit('menu', index,data))
+	.then(data => edit({
+		type: 'menu',
+		index,
+		data,
+		useAutoSave: false
+	}))
 	.catch((err) => {
 		popAlert(err.message)
 	})
@@ -101,7 +124,7 @@ const getPages = () => {
 				$data: data[i],
 				$methods: {
 					click() {
-						editPage(i)
+						editPage(data[i], i)
 					}
 				}
 			}))

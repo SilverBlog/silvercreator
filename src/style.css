@@ -43,14 +43,26 @@ a, input, button {
 	align-items: flex-start;
 }
 
-.loginbox {
+.login {
+	box-sizing: border-box;
 	height: 100%;
-	width:  100%;
-	padding-top: calc(50vh - 120px);
+	width: 100%;
+	padding-top: calc(50vh - 140px);
+	& .credits {
+		position: fixed;
+		bottom: 5px;
+		text-align: center;
+		width: 100%;
+		font-size: 80%;
+		& a {
+			color: #000;
+			text-decoration: none;
+		}
+	}
 }
 
 .loginbox {
-	height:  200px;
+	height: 200px;
 	width: 300px;
 	margin: 0 auto;
 	text-align: center;
