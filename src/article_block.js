@@ -8,9 +8,8 @@ import md5 from 'blueimp-md5'
 import axios from 'axios'
 
 const editPost = ({state: {$data}, value}) => {
-	const saved = sessionStorage.getItem(`smde_${$data.name}`) || localStorage.getItem(`smde_${$data.name}`)
+	const saved = localStorage.getItem(`smde_${$data.name}`)
 	if (saved) {
-		localStorage.setItem(`smde_${$data.name}`, saved)
 		return edit({
 			type: 'post',
 			index: value,

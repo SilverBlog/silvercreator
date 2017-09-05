@@ -29,7 +29,8 @@ const header = new Header({
 		$data: {style},
 		$methods: {
 			newPost() {
-				edit({
+				const saved = localStorage.getItem('smde___$$autosave_for_new_post$$__')
+				const editorConfig = {
 					type: 'post',
 					index: -1,
 					data: {
@@ -37,8 +38,11 @@ const header = new Header({
 						name: '',
 						content: ''
 					},
-					useAutoSave: true
-				})
+					useAutoSave: true,
+					newPost: true
+				}
+				if (!saved) editorConfig.useAutoSave = false
+				edit(editorConfig)
 			}
 		}
 	})
@@ -84,9 +88,8 @@ const getPosts = () => {
 }
 
 const editPage = (data, index) => {
-	const saved = sessionStorage.getItem(`smde_${data.name}`) || localStorage.getItem(`smde_${data.name}`)
+	const saved = localStorage.getItem(`smde_${data.name}`)
 	if (saved) {
-		localStorage.setItem(`smde_${data.name}`, saved)
 		return edit({
 			type: 'menu',
 			index,

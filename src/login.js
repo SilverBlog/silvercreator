@@ -1,5 +1,6 @@
 import tpl from './login.eft'
 import style from './style.css'
+import { version } from '../package.json'
 
 const Login = class extends tpl {
 	constructor(state) {
@@ -10,7 +11,8 @@ const Login = class extends tpl {
 
 const getLogin = enter => new Login({
 	$data: {
-		address: localStorage.getItem('site')
+		address: localStorage.getItem('site'),
+		version
 	},
 	$methods: {enter}
 })
