@@ -12,3 +12,14 @@
 		>div.{{style.btn}}
 			@click = enter:{{address}}
 			.Enter
+	>div.{{style.credits}}
+		.Created by &
+		>a
+			#target = _blank
+			#href = https://ccoooss.com
+			.Yukino Song
+		. | &
+		>a
+			#target = _blank
+			#href = https://github.com/SilverBlogTeam/SilverCreator
+			.v{{version}}
