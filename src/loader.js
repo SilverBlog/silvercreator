@@ -85,6 +85,7 @@ const getPosts = (cb) => {
 }
 
 const editPage = (data, index) => {
+	if (gState.fetching) return popAlert('Please wait...')
 	const saved = localStorage.getItem(`smde_${data.name}`)
 	if (saved) {
 		return edit({
@@ -95,7 +96,6 @@ const editPage = (data, index) => {
 		})
 	}
 
-	if (gState.fetching) return popAlert('Please wait...')
 	gState.fetching = true
 	axios.post(`${localStorage.getItem('site')}/control/get_menu_content`, {
 		'post_id': parseInt(index, 10)
