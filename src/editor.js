@@ -72,7 +72,6 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 editor.$methods.save = savePost
 
 const edit = ({type, index, data, saved, newPost}) => {
-	console.log(data.content)
 	const editorConfig = {
 		element: editor.$refs.editor,
 		spellChecker: false,
