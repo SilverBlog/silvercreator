@@ -18,9 +18,6 @@ import axios from 'axios'
 
 import gState from './state.js'
 
-let site = localStorage.getItem('site')
-let key = sessionStorage.getItem('siteKey')
-
 const title = new TextLogo('Silver')
 const header = new Header({
 	$data: {style: {classes: style.header}},
@@ -68,7 +65,7 @@ const contents = [
 ]
 
 const getPosts = (cb) => {
-	axios.post(`${site}/control/get_post_list`)
+	axios.post(`${localStorage.getItem('site')}/control/get_post_list`)
 	.then(resp => resp.data)
 	.then((data) => {
 		inform()
@@ -100,7 +97,7 @@ const editPage = (data, index) => {
 
 	if (gState.fetching) return popAlert('Please wait...')
 	gState.fetching = true
-	axios.post(`${site}/control/get_menu_content`, {
+	axios.post(`${localStorage.getItem('site')}/control/get_menu_content`, {
 		'post_id': parseInt(index, 10)
 	})
 	.then(resp => resp.data)
@@ -120,7 +117,7 @@ const editPage = (data, index) => {
 }
 
 const getPages = (cb) => {
-	axios.post(`${site}/control/get_menu_list`)
+	axios.post(`${localStorage.getItem('site')}/control/get_menu_list`)
 	.then(resp => resp.data)
 	.then((data) => {
 		// console.log(data)
@@ -149,12 +146,16 @@ let login = null
 const enter = ({value}) => {
 	if (gState.fetching) return popAlert('Please wait...')
 	popAlert('Loading...')
-	site = value
-	localStorage.setItem('site', value)
+	try {
+		localStorage.setItem('site', (new URL(value)).origin)
+	} catch (e) {
+		popAlert('Invalid URL')
+		throw e
+	}
 	getPosts()
 	getPages()
 	gState.fetching = true
-	axios.post(`${site}/control/system_info`)
+	axios.post(`${localStorage.getItem('site')}/control/system_info`)
 	.then(resp => resp.data)
 	.then((data) => {
 		gState.fetching = false
@@ -172,7 +173,7 @@ const enter = ({value}) => {
 	})
 }
 
-if (site && key) enter({value: site})
+if (localStorage.getItem('site') && sessionStorage.getItem('siteKey')) enter({value: localStorage.getItem('site')})
 else {
 	login = getLogin(enter)
 	body.contents = [login]

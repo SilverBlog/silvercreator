@@ -1,6 +1,6 @@
 {
   "name": "silver-creator",
-  "version": "1.0.1-alpha.4",
+  "version": "1.0.1-alpha.5",
   "description": "Website for ef.js",
   "main": "dist/main.min.js",
   "scripts": {
@@ -54,6 +54,7 @@
     "blueimp-md5": "^2.10.0",
     "ef-core": "^0.4.1-beta.2",
     "neonclear": "0.1.0-alpha.2",
-    "simplemde": "^1.11.2"
+    "simplemde": "^1.11.2",
+    "url-polyfill": "^1.0.7"
   }
 }
