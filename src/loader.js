@@ -151,6 +151,8 @@ const enter = ({value}) => {
 	popAlert('Loading...')
 	site = value
 	localStorage.setItem('site', value)
+	getPosts()
+	getPages()
 	gState.fetching = true
 	axios.post(`${site}/control/system_info`)
 	.then(resp => resp.data)
@@ -161,8 +163,6 @@ const enter = ({value}) => {
 		body.contents = contents
 		onNextRender(hideAlert)
 		exec()
-		getPosts()
-		getPages()
 	})
 	.catch((err) => {
 		gState.fetching = false

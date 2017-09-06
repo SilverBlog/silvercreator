@@ -25,7 +25,7 @@ const showAlert = () => {
 }
 
 const popAlert = (info, cb) => {
-	alertBox.$data.shown = ''
+	// alertBox.$data.shown = ''
 	alertBox.$data.info = info
 	alertBox.$methods.next = next
 	alertBox.$methods.cb = cb
