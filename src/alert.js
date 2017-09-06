@@ -1,9 +1,9 @@
 import tpl from './alert.eft'
-import Box from './alert_box.eft'
+import Container from './alert_container.eft'
 import style from './style.css'
 import {onNextRender} from 'ef-core'
 
-const alertContainer = new Box()
+const alertContainer = new Container()
 
 const alertBox = new tpl({$data: {style}})
 
