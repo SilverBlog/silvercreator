@@ -1,7 +1,7 @@
 // Import style
 import style from './style.css'
 // Import core functions
-import { inform, exec } from 'ef-core'
+import { inform, exec, onNextRender } from 'ef-core'
 inform()
 // Import modules
 import { Page, Header, TextLogo, Footer, Drawer,
@@ -11,15 +11,15 @@ import body from './body.js'
 import articleBlock from './article_block.js'
 import getLogin from './login.js'
 import edit from './editor.js'
-import popAlert from './alert.js'
+import { popAlert, hideAlert } from './alert.js'
 
 import toColor from './utils/string_to_color.js'
 import axios from 'axios'
 
+import gState from './state.js'
+
 let site = localStorage.getItem('site')
 let key = sessionStorage.getItem('siteKey')
-
-let fetching = false
 
 const title = new TextLogo('Silver')
 const header = new Header({
@@ -29,6 +29,7 @@ const header = new Header({
 		$data: {style},
 		$methods: {
 			newPost() {
+				if (gState.fetching) return popAlert('Please wait...')
 				const saved = localStorage.getItem('smde___$$auto_save_for_new_post$$__')
 				const editorConfig = {
 					type: 'post',
@@ -70,7 +71,6 @@ const getPosts = (cb) => {
 	axios.post(`${site}/control/get_post_list`)
 	.then(resp => resp.data)
 	.then((data) => {
-		// console.log(data)
 		inform()
 		page.contents.empty()
 		for (let i in data) {
@@ -97,16 +97,24 @@ const editPage = (data, index) => {
 			saved
 		})
 	}
+
+	if (gState.fetching) return popAlert('Please wait...')
+	gState.fetching = true
 	axios.post(`${site}/control/get_menu_content`, {
 		'post_id': parseInt(index, 10)
 	})
 	.then(resp => resp.data)
-	.then(data => edit({
-		type: 'menu',
-		index,
-		data
-	}))
+	.then((data) => {
+		hideAlert()
+		gState.fetching = false
+		edit({
+			type: 'menu',
+			index,
+			data
+		})
+	})
 	.catch((err) => {
+		gState.fetching = false
 		popAlert(err.message)
 	})
 }
@@ -139,21 +147,25 @@ const getPages = (cb) => {
 let login = null
 
 const enter = ({value}) => {
-	if (fetching) return
+	if (gState.fetching) return popAlert('Please wait...')
+	popAlert('Loading...')
 	site = value
 	localStorage.setItem('site', value)
-	fetching = true
+	getPosts()
+	getPages()
+	gState.fetching = true
 	axios.post(`${site}/control/system_info`)
 	.then(resp => resp.data)
 	.then((data) => {
-		fetching = false
+		gState.fetching = false
+		inform()
 		drawer.$data.title = data.author_name
 		body.contents = contents
-		getPosts()
-		getPages()
+		onNextRender(hideAlert)
+		exec()
 	})
 	.catch((err) => {
-		fetching = false
+		gState.fetching = false
 		if (!login) login = getLogin(enter)
 		body.contents = [login]
 		popAlert(err.message)
@@ -163,7 +175,7 @@ const enter = ({value}) => {
 if (site && key) enter({value: site})
 else {
 	login = getLogin(enter)
-	body.contents.push(login)
+	body.contents = [login]
 }
 
 body.$mount({target: document.body, option: 'replace'})

@@ -1,14 +1,14 @@
 import tpl from './get_key.eft'
 import style from './style.css'
-import body from './body.js'
+import {alertContainer} from './alert.js'
 import {onNextRender} from 'ef-core'
 import md5 from 'blueimp-md5'
 
 const keyBox = new tpl({$data: {style}})
 
-const hideKeyBox = ({state}) => {
-	state.$data.shown = ''
-	setTimeout(() => state.$umount(), 300)
+const hideKeyBox = () => {
+	keyBox.$data.shown = ''
+	setTimeout(() => keyBox.$umount(), 300)
 }
 keyBox.$methods.hide = hideKeyBox
 
@@ -34,7 +34,7 @@ const getKey = (cb) => {
 	keyBox.$methods.cb = cb
 	keyBox.$data.key = ''
 	onNextRender(showKeyBox)
-	body.contents.push(keyBox)
+	alertContainer.contents.push(keyBox)
 }
 
 export default getKey
