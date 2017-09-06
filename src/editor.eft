@@ -8,6 +8,7 @@
 			%value = {{name}}
 		>textarea#editor
 			%value = {{content}}
+			.{{content}}
 		>div.{{style.btns}}
 			>span
 				@click = cancel
