@@ -14,7 +14,7 @@ const editPost = ({state: {$data}, value}) => {
 			type: 'post',
 			index: value,
 			data: $data,
-			useAutoSave: true
+			saved
 		})
 	}
 	axios.post(`${localStorage.getItem('site')}/control/get_post_content`, {
@@ -24,8 +24,7 @@ const editPost = ({state: {$data}, value}) => {
 	.then(data => edit({
 		type: 'post',
 		index: value,
-		data,
-		useAutoSave: false
+		data
 	}))
 	.catch((err) => {
 		popAlert(err.message)

@@ -29,7 +29,7 @@ const header = new Header({
 		$data: {style},
 		$methods: {
 			newPost() {
-				const saved = localStorage.getItem('smde___$$autosave_for_new_post$$__')
+				const saved = localStorage.getItem('smde___$$auto_save_for_new_post$$__')
 				const editorConfig = {
 					type: 'post',
 					index: -1,
@@ -38,10 +38,9 @@ const header = new Header({
 						name: '',
 						content: ''
 					},
-					useAutoSave: true,
+					saved,
 					newPost: true
 				}
-				if (!saved) editorConfig.useAutoSave = false
 				edit(editorConfig)
 			}
 		}
@@ -95,7 +94,7 @@ const editPage = (data, index) => {
 			type: 'menu',
 			index,
 			data,
-			useAutoSave: true
+			saved
 		})
 	}
 	axios.post(`${site}/control/get_menu_content`, {
@@ -105,8 +104,7 @@ const editPage = (data, index) => {
 	.then(data => edit({
 		type: 'menu',
 		index,
-		data,
-		useAutoSave: false
+		data
 	}))
 	.catch((err) => {
 		popAlert(err.message)

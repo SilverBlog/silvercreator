@@ -17,6 +17,7 @@ const editor = new tpl({
 				body.contents = contents
 				state.mde.toTextArea()
 				state.mde = null
+				state.$data.content = ''
 			})
 		}
 	}
@@ -43,6 +44,7 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 				state.mde.clearAutosavedValue()
 				state.mde.toTextArea()
 				state.mde = null
+				state.$data.content = ''
 				if (type === 'post') return getPosts(() => popAlert('Post updated successfully.'))
 				getPosts()
 				return getPages(() => popAlert('Page updated successfully.'))
@@ -60,7 +62,7 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 
 editor.$methods.save = savePost
 
-const edit = ({type, index, data, useAutoSave, newPost}) => {
+const edit = ({type, index, data, saved, newPost}) => {
 	const editorConfig = {
 		element: editor.$refs.editor,
 		spellChecker: false,
@@ -69,15 +71,24 @@ const edit = ({type, index, data, useAutoSave, newPost}) => {
 			uniqueId: data.name
 		}
 	}
-	if (newPost) editorConfig.autosave.uniqueId = '__$$autosave_for_new_post$$__'
-	if (!useAutoSave) editorConfig.initialValue = data.content
+
 	inform()
 	editor.$data = data
 	editor.$data.type = type
 	editor.$data.index = index
+	if (editor.mde) {
+		editor.mde.toTextArea()
+		editor.mde = null
+		editor.$data.content = ''
+	}
+	exec()
+
+	if (newPost) editorConfig.autosave.uniqueId = '__$$auto_save_for_new_post$$__'
+	if (saved) editor.$data.content = saved
 	editor.mde = new SimpleMDE(editorConfig)
-	if (newPost && !useAutoSave) editor.mde.value('')
+	inform()
 	body.contents = [editor]
+	if (saved) popAlert('Auto saved content loaded.')
 	exec()
 }
 
