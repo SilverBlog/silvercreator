@@ -1,6 +1,6 @@
 {
   "name": "silver-creator",
-  "version": "1.0.1-alpha.3",
+  "version": "1.0.1-alpha.4",
   "description": "Website for ef.js",
   "main": "dist/main.min.js",
   "scripts": {

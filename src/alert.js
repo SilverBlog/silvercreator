@@ -1,13 +1,15 @@
 import tpl from './alert.eft'
+import Container from './alert_container.eft'
 import style from './style.css'
-import body from './body.js'
 import {onNextRender} from 'ef-core'
+
+const alertContainer = new Container()
 
 const alertBox = new tpl({$data: {style}})
 
-const hideAlert = ({state}) => {
-	state.$data.shown = ''
-	setTimeout(() => state.$umount(), 300)
+const hideAlert = () => {
+	alertBox.$data.shown = ''
+	setTimeout(() => alertBox.$umount(), 300)
 }
 alertBox.$methods.hide = hideAlert
 
@@ -23,11 +25,12 @@ const showAlert = () => {
 }
 
 const popAlert = (info, cb) => {
+	alertBox.$data.shown = ''
 	alertBox.$data.info = info
 	alertBox.$methods.next = next
 	alertBox.$methods.cb = cb
 	onNextRender(showAlert)
-	body.contents.push(alertBox)
+	alertContainer.contents.push(alertBox)
 }
 
-export default popAlert
+export { popAlert, hideAlert, alertContainer }

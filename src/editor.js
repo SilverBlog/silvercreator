@@ -3,11 +3,13 @@ import style from './style.css'
 import { getPosts, getPages, contents } from './loader.js'
 import body from './body.js'
 import getKey from './get_key.js'
-import popAlert from './alert.js'
+import { popAlert } from './alert.js'
 import SimpleMDE from 'simplemde'
-import {inform, exec} from 'ef-core'
+import { inform, exec } from 'ef-core'
 import md5 from 'blueimp-md5'
 import axios from 'axios'
+
+import gState from './state.js'
 
 const editor = new tpl({
 	$data: {style},
@@ -30,6 +32,9 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 	else postURL += `edit_${type}`
 	const save = (key) => {
 		const content = state.mde.value()
+
+		if (gState.fetching) return popAlert('Please wait...')
+		gState.fetching = true
 		axios.post(postURL, {
 			'post_id': parseInt(value, 10),
 			title,
@@ -39,19 +44,23 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 		})
 		.then(resp => resp.data)
 		.then((data) => {
+			gState.fetching = false
 			if (data.status) {
 				body.contents = contents
-				state.mde.clearAutosavedValue()
+				state.mde.value('')
 				state.mde.toTextArea()
 				state.mde = null
-				state.$data.content = ''
-				if (type === 'post') return getPosts(() => popAlert('Post updated successfully.'))
+				if (type === 'post') return getPosts(() => {
+					if (value === -1) return popAlert('Post added successfully')
+					popAlert('Post updated successfully.')
+				})
 				getPosts()
 				return getPages(() => popAlert('Page updated successfully.'))
 			}
 			popAlert('Wrong password, please try again.', () => getKey(save))
 		})
 		.catch((err) => {
+			gState.fetching = false
 			popAlert(err.message)
 		})
 	}
@@ -63,6 +72,7 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 editor.$methods.save = savePost
 
 const edit = ({type, index, data, saved, newPost}) => {
+	console.log(data.content)
 	const editorConfig = {
 		element: editor.$refs.editor,
 		spellChecker: false,
@@ -79,12 +89,12 @@ const edit = ({type, index, data, saved, newPost}) => {
 	if (editor.mde) {
 		editor.mde.toTextArea()
 		editor.mde = null
-		editor.$data.content = ''
 	}
 	exec()
 
 	if (newPost) editorConfig.autosave.uniqueId = '__$$auto_save_for_new_post$$__'
 	if (saved) editor.$data.content = saved
+
 	editor.mde = new SimpleMDE(editorConfig)
 	inform()
 	body.contents = [editor]
