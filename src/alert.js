@@ -3,15 +3,23 @@ import Container from './alert_container.eft'
 import style from './style.css'
 import {onNextRender} from 'ef-core'
 
+let alertShowing = false
+
 const alertContainer = new Container()
 
 const alertBox = new tpl({$data: {style}})
 
 const hideAlert = () => {
+	alertShowing = false
 	alertBox.$data.shown = ''
-	setTimeout(() => alertBox.$umount(), 300)
+	setTimeout(() => {
+		if (alertShowing) return
+		alertBox.$umount()
+	}, 300)
 }
-alertBox.$methods.hide = hideAlert
+alertBox.$methods.hide = () => {
+	hideAlert()
+}
 
 const next = ({state: {$methods}, state}) => {
 	if ($methods.cb) $methods.cb()
@@ -21,6 +29,7 @@ const next = ({state: {$methods}, state}) => {
 }
 
 const showAlert = () => {
+	alertShowing = true
 	alertBox.$data.shown = style.shown
 }
 
