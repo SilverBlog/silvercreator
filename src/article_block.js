@@ -41,11 +41,11 @@ const editPost = ({state: {$data}, value}) => {
 }
 
 const deletePost = ({state, value}) => {
+	if (gState.fetching) return popAlert('Please wait...')
 	popAlert('Are you sure to delete?', () => {
 		const del = (key) => {
 			const salt = `${value}${state.$data.title}`
 			const encode = md5(`${salt}${key}`)
-			if (gState.fetching) return popAlert('Please wait...')
 			gState.fetching = true
 			axios.post(`${localStorage.getItem('site')}/control/delete`, {
 				"post_id": parseInt(value, 10),
@@ -54,11 +54,10 @@ const deletePost = ({state, value}) => {
 			.then(resp => resp.data)
 			.then((data) => {
 				gState.fetching = false
-				if (data.status) return getPosts(() => popAlert('Deleted successfully.'))
+				if (data.status) return getPosts(() => popAlert('Post deleted.'))
 				popAlert('Wrong password, please try again.', () => getKey(del))
 			})
 			.catch((err) => {
-				hideAlert()
 				gState.fetching = false
 				popAlert(err.message)
 			})

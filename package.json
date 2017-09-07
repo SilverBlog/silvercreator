@@ -1,7 +1,7 @@
 {
   "name": "silver-creator",
-  "version": "1.0.1-alpha.7",
-  "description": "Website for ef.js",
+  "version": "1.0.1-alpha.8",
+  "description": "SilverBlog management tool",
   "main": "dist/main.min.js",
   "scripts": {
     "dev": "rollup -c ./config/rollup.dev.js -w",
