@@ -69,7 +69,7 @@ const deletePost = ({state, value}) => {
 }
 
 const open = ({value}) => {
-	window.open(`${localStorage.getItem('site')}/${value}`)
+	window.open(`${localStorage.getItem('site')}/post/${value}`)
 }
 
 const articleBlock = class extends tpl {

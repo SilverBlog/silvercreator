@@ -15,6 +15,8 @@ import { popAlert, hideAlert } from './alert.js'
 
 import toColor from './utils/string_to_color.js'
 import axios from 'axios'
+import { silver_api_version as apiVersion } from '../package.json'
+
 
 import gState from './state.js'
 
@@ -124,14 +126,13 @@ const getPages = (cb) => {
 		inform()
 		pagesSection.items.empty()
 		for (let i in data) {
-			pagesSection.items.push(new DrawerItem({
+			const state = {
 				$data: data[i],
-				$methods: {
-					click() {
-						editPage(data[i], i)
-					}
-				}
-			}))
+				$methods: {}
+			}
+			if (data[i].absolute) state.$methods.click = () => window.open(data[i].absolute)
+			else state.$methods.click = () => editPage(data[i], i)
+			pagesSection.items.push(new DrawerItem(state))
 		}
 		exec()
 		if (cb) return cb()
@@ -164,6 +165,7 @@ const enter = ({value}) => {
 		body.contents = contents
 		onNextRender(hideAlert)
 		exec()
+		if (data.api_version < apiVersion) popAlert('API outdated.')
 	})
 	.catch((err) => {
 		gState.fetching = false
@@ -183,4 +185,4 @@ body.$mount({target: document.body, option: 'replace'})
 
 window.addEventListener('load', exec, false)
 
-export { getPosts, getPages, page, header, footer, drawer, contents }
+export { getPosts, page, header, footer, drawer, contents }
