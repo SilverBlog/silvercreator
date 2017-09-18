@@ -27,8 +27,7 @@ const config = {
 	external,
 	globals,
 	watch: {
-		chokidar: true,
-		include: 'src/'
+		chokidar: true
 	}
 }
 

@@ -13,6 +13,7 @@ import json from 'rollup-plugin-json'
 import eft from 'rollup-plugin-eft'
 import postcss from 'rollup-plugin-postcss'
 import string from 'rollup-plugin-string'
+import filesize from 'rollup-plugin-filesize'
 
 // Postcss plugins
 import postcssModules from 'postcss-modules'
@@ -115,6 +116,7 @@ export default {
 			},
 			objectAssign: 'Object.assign'
 		}),
+		filesize(),
 		(process.env.NODE_ENV === 'production' && uglify())
 	],
 	external: ['axios', 'simplemde'],
