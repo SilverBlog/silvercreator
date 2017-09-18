@@ -41,25 +41,25 @@ console.log('Target:', chalk.bold.green(process.env.NODE_ENV || 'development'))
 switch (process.env.BUILD_ENV) {
 	case 'DEMO': {
 		console.log(chalk.cyan`
-+------------+
-| DEMO BUILD |
-+------------+
+┌────────────┐
+│ DEMO BUILD │
+└────────────┘
 `)
 		break
 	}
 	case 'CI': {
 		console.log(chalk.green`
-+----------+
-| CI BUILD |
-+----------+
+┌──────────┐
+│ CI BUILD │
+└──────────┘
 `)
 		break
 	}
 	default: {
 		console.log(chalk.yellow`
-+--------------+
-| NORMAL BUILD |
-+--------------+
+┌──────────────┐
+│ NORMAL BUILD │
+└──────────────┘
 `)
 	}
 }
