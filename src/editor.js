@@ -1,6 +1,6 @@
 import tpl from './editor.eft'
 import style from './style.css'
-import { getPosts, getPages, contents } from './loader.js'
+import { getPosts, contents } from './loader.js'
 import body from './body.js'
 import getKey from './get_key.js'
 import { popAlert } from './alert.js'
@@ -55,7 +55,7 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 					popAlert('Post updated successfully.')
 				})
 				getPosts()
-				return getPages(() => popAlert('Page updated successfully.'))
+				return getPosts(() => popAlert('Page updated successfully.'))
 			}
 			popAlert('Wrong password, please try again.', () => getKey(save))
 		})
