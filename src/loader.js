@@ -67,7 +67,7 @@ const contents = [
 ]
 
 const getPosts = (cb) => {
-	axios.post(`${localStorage.getItem('site')}/control/get_post_list`)
+	axios.post(`${localStorage.getItem('site')}/control/get_list/post`)
 	.then(resp => resp.data)
 	.then((data) => {
 		inform()
@@ -99,7 +99,7 @@ const editPage = (data, index) => {
 	}
 
 	gState.fetching = true
-	axios.post(`${localStorage.getItem('site')}/control/get_menu_content`, {
+	axios.post(`${localStorage.getItem('site')}/control/get_content/menu`, {
 		'post_id': parseInt(index, 10)
 	})
 	.then(resp => resp.data)
@@ -119,7 +119,7 @@ const editPage = (data, index) => {
 }
 
 const getPages = (cb) => {
-	axios.post(`${localStorage.getItem('site')}/control/get_menu_list`)
+	axios.post(`${localStorage.getItem('site')}/control/get_list/menu`)
 	.then(resp => resp.data)
 	.then((data) => {
 		// console.log(data)

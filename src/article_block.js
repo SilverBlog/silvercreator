@@ -21,7 +21,7 @@ const editPost = ({state: {$data}, value}) => {
 		})
 	}
 	gState.fetching = true
-	axios.post(`${localStorage.getItem('site')}/control/get_post_content`, {
+	axios.post(`${localStorage.getItem('site')}/control/get_content/post`, {
 		'post_id': parseInt(value, 10)
 	})
 	.then(resp => resp.data)

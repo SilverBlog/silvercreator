@@ -29,7 +29,7 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 	if (!title) return popAlert('Title must not be empty!')
 	let postURL = `${localStorage.getItem('site')}/control/`
 	if (value === -1) postURL += 'new'
-	else postURL += `edit_${type}`
+	else postURL += `edit/${type}`
 	const save = (key) => {
 		const content = state.mde.value()
 
