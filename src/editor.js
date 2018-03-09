@@ -40,7 +40,7 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 			title,
 			name,
 			content,
-			encode: md5(`${title}${key}`)
+			sign: md5(`${title}${key}`)
 		})
 		.then(resp => resp.data)
 		.then((data) => {

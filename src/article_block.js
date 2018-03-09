@@ -45,11 +45,11 @@ const deletePost = ({state, value}) => {
 	popAlert('Are you sure to delete?', () => {
 		const del = (key) => {
 			const salt = `${value}${state.$data.title}`
-			const encode = md5(`${salt}${key}`)
+			const sign = md5(`${salt}${key}`)
 			gState.fetching = true
 			axios.post(`${localStorage.getItem('site')}/control/delete`, {
 				"post_id": parseInt(value, 10),
-				encode
+				sign
 			})
 			.then(resp => resp.data)
 			.then((data) => {
