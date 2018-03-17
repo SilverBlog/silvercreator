@@ -1,7 +1,7 @@
 {
   "name": "silver-creator",
   "version": "1.1.1-alpha.1",
-  "silver_api_version" : 2,
+  "silver_api_version": 2,
   "description": "SilverBlog management tool",
   "main": "dist/main.min.js",
   "scripts": {
@@ -54,6 +54,7 @@
     "axios": "^0.16.2",
     "blueimp-md5": "^2.10.0",
     "ef-core": "^0.4.1-beta.2",
+    "marked": "^0.3.17",
     "neonclear": "0.1.0-alpha.2",
     "simplemde": "^1.11.2",
     "url-polyfill": "^1.0.7"
