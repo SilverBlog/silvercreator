@@ -1,5 +1,10 @@
-image: node:latest
+stages:
+  - build
+  - deploy
+
 pages:
+  stage: build
+  image: node:latest
   script:
   - npm install
   - npm run build
@@ -11,3 +16,11 @@ pages:
     paths:
       - node_modules
     key: project
+
+release_github:
+  image: docker.reallserver.cn/public/docker-git
+  stage: push
+  only:
+  - master
+  script:
+  - git push --set-upstream https://${github_key}@github.com/SilverBlogTeam/silvercreator.git HEAD:master
