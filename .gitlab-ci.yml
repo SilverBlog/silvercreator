@@ -20,7 +20,6 @@ pages:
 release_github:
   stage: deploy
   image: docker.reallserver.cn/public/docker-git
-  stage: push
   only:
   - master
   script:
