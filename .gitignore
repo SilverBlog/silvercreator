@@ -22,3 +22,4 @@ test/*.js.map
 
 # node modules
 node_modules/
+.idea
