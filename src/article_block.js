@@ -4,25 +4,25 @@ import getKey from './get_key.js'
 import { popAlert, hideAlert } from './alert.js'
 import { getPosts } from './loader.js'
 import edit from './editor.js'
-import md5 from 'blueimp-md5'
 import axios from 'axios'
-
+import hmac from 'crypto-js/hmac-sha512'
 import gState from './state.js'
 
-const editPost = ({state: {$data}, value}) => {
+const editPost = ({state: {$data}}) => {
 	if (gState.fetching) return popAlert('Please wait...')
+	const uuid = $data.uuid
 	const saved = localStorage.getItem(`smde_${$data.name}`)
 	if (saved) {
 		return edit({
 			type: 'post',
-			index: value,
+			uuid,
 			data: $data,
 			saved
 		})
 	}
 	gState.fetching = true
-	axios.post(`${localStorage.getItem('site')}/control/get_content/post`, {
-		'post_id': parseInt(value, 10)
+	axios.post(`${localStorage.getItem('site')}/control/v2/get/content/post`, {
+		'post_uuid': uuid
 	})
 	.then(resp => resp.data)
 	.then((data) => {
@@ -30,7 +30,7 @@ const editPost = ({state: {$data}, value}) => {
 		gState.fetching = false
 		edit({
 			type: 'post',
-			index: value,
+			uuid,
 			data
 		})
 	})
@@ -40,16 +40,18 @@ const editPost = ({state: {$data}, value}) => {
 	})
 }
 
-const deletePost = ({state, value}) => {
+const deletePost = ({state}) => {
 	if (gState.fetching) return popAlert('Please wait...')
+	const data = state.$data
 	popAlert('Are you sure to delete?', () => {
 		const del = (key) => {
-			const salt = `${value}${state.$data.title}`
-			const sign = md5(`${salt}${key}`)
+			const now = new Date().getTime()
+			const sign = `${hmac(`${data.uuid}${data.title}${data.name}`, `${key}${now}`)}`
 			gState.fetching = true
-			axios.post(`${localStorage.getItem('site')}/control/delete`, {
-				"post_id": parseInt(value, 10),
-				sign
+			axios.post(`${localStorage.getItem('site')}/control/v2/delete`, {
+				"post_uuid": data.uuid,
+				sign,
+				"send_time": now
 			})
 			.then(resp => resp.data)
 			.then((data) => {

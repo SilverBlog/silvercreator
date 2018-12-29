@@ -31,8 +31,8 @@ const header = new Header({
 				if (gState.fetching) return popAlert('Please wait...')
 				const saved = localStorage.getItem('smde___$$auto_save_for_new_post$$__')
 				const editorConfig = {
-					type: 'post',
-					index: -1,
+					type: 'page',
+					uuid: null,
 					data: {
 						title: '',
 						name: '',
@@ -67,7 +67,7 @@ const contents = [
 ]
 
 const getPosts = (cb) => {
-	axios.post(`${localStorage.getItem('site')}/control/v2/get/content/post`)
+	axios.post(`${localStorage.getItem('site')}/control/v2/get/list/post`)
 	.then(resp => resp.data)
 	.then((data) => {
 		inform()
@@ -76,7 +76,6 @@ const getPosts = (cb) => {
 			const color = toColor(data[i].title)
 			data[i].color = color
 			data[i].displayDate = new Date(data[i].time).toLocaleDateString()
-			// data[i].index = i
 			page.contents.push(new articleBlock(data[i]))
 		}
 		exec()
@@ -87,13 +86,13 @@ const getPosts = (cb) => {
 	})
 }
 
-const editPage = (data, index) => {
+const editPage = (data, uuid) => {
 	if (gState.fetching) return popAlert('Please wait...')
 	const saved = localStorage.getItem(`smde_${data.name}`)
 	if (saved) {
 		return edit({
 			type: 'menu',
-			index,
+			uuid,
 			data,
 			saved
 		})
@@ -101,7 +100,7 @@ const editPage = (data, index) => {
 
 	gState.fetching = true
 	axios.post(`${localStorage.getItem('site')}/control/v2/get/content/menu`, {
-		'post_id': parseInt(index, 10)
+		'post_uuid': uuid
 	})
 	.then(resp => resp.data)
 	.then((data) => {
@@ -109,7 +108,7 @@ const editPage = (data, index) => {
 		gState.fetching = false
 		edit({
 			type: 'menu',
-			index,
+			uuid,
 			data
 		})
 	})
@@ -132,7 +131,7 @@ const getPages = (cb) => {
 				$methods: {}
 			}
 			if (data[i].absolute) state.$methods.click = () => window.open(data[i].absolute)
-			else state.$methods.click = () => editPage(data[i], i)
+			else state.$methods.click = () => editPage(data[i], data[i].uuid)
 			pagesSection.items.push(new DrawerItem(state))
 		}
 		exec()

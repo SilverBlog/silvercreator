@@ -2,7 +2,8 @@ import tpl from './get_key.eft'
 import style from './style.css'
 import {alertContainer} from './alert.js'
 import {onNextRender} from 'ef-core'
-import md5 from 'blueimp-md5'
+import md5 from 'crypto-js/md5'
+import hmac from 'crypto-js/hmac-sha256'
 
 const keyBox = new tpl({$data: {style}})
 
@@ -17,7 +18,8 @@ const next = ({state, value}) => {
 		state.$data.placeholder = 'Please enter your pass phrase'
 		return
 	}
-	const hash = md5(value)
+	const hash = `${hmac(`${md5(value)}`, "SiLvErBlOg")}`
+	console.log(hash)
 	sessionStorage.setItem('siteKey', hash)
 	state.$methods.cb(hash)
 	state.$methods.cb = null

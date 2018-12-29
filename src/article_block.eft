@@ -10,8 +10,8 @@
 		.{{excerpt}}
 	>div.{{style.action_box}}
 		>div.{{style.edit}}.{{style.btn}}.material-icons
-			@click = editPost:{{index}}
+			@click = editPost
 			.edit
 		>div.{{style.delete}}.{{style.btn}}.material-icons
-			@click = deletePost:{{index}}
+			@click = deletePost
 			.delete_forever
