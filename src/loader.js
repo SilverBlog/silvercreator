@@ -67,7 +67,7 @@ const contents = [
 ]
 
 const getPosts = (cb) => {
-	axios.post(`${localStorage.getItem('site')}/control/v2/get/list/post`)
+	axios.post(`${localStorage.getItem('site')}/control/v2/get/content/post`)
 	.then(resp => resp.data)
 	.then((data) => {
 		inform()
@@ -75,7 +75,8 @@ const getPosts = (cb) => {
 		for (let i in data) {
 			const color = toColor(data[i].title)
 			data[i].color = color
-			data[i].index = i
+			data[i].displayDate = new Date(data[i].time).toLocaleDateString()
+			// data[i].index = i
 			page.contents.push(new articleBlock(data[i]))
 		}
 		exec()
@@ -99,7 +100,7 @@ const editPage = (data, index) => {
 	}
 
 	gState.fetching = true
-	axios.post(`${localStorage.getItem('site')}/control/get_content/menu`, {
+	axios.post(`${localStorage.getItem('site')}/control/v2/get/content/menu`, {
 		'post_id': parseInt(index, 10)
 	})
 	.then(resp => resp.data)

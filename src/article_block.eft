@@ -5,7 +5,7 @@
 		@click = open:{{name}}
 		.{{title}}
 	>div.{{style.time}}
-		.{{time}}
+		.{{displayDate}}
 	>p.{{style.excerpt}}
 		.{{excerpt}}
 	>div.{{style.action_box}}
