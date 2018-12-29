@@ -148,7 +148,7 @@ const enter = ({value}) => {
 	if (gState.fetching) return popAlert('Please wait...')
 	popAlert('Loading...')
 	try {
-		localStorage.setItem('site', (new URL(value)).origin)
+		localStorage.setItem('site', `https://${(new URL(value)).host}`)
 	} catch (e) {
 		popAlert('Invalid URL')
 		throw e
