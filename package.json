@@ -54,6 +54,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "blueimp-md5": "^2.10.0",
+    "crypto-js": "^3.1.9-1",
     "ef-core": "^0.4.1-beta.2",
     "marked": "^0.3.17",
     "neonclear": "0.1.0-alpha.2",
