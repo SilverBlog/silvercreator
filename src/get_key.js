@@ -19,7 +19,6 @@ const next = ({state, value}) => {
 		return
 	}
 	const hash = `${hmac(`${md5(value)}`, "SiLvErBlOg")}`
-	console.log(hash)
 	sessionStorage.setItem('siteKey', hash)
 	state.$methods.cb(hash)
 	state.$methods.cb = null

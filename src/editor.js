@@ -26,7 +26,8 @@ const editor = new tpl({
 	}
 })
 
-const savePost = ({state, state: {$data: {title, name, type}}, uuid}) => {
+const savePost = ({state, state: {$data: {title, name, type, uuid}}}) => {
+	console.log(state)
 	// 發布：hmac.sha512(key:password + send_time,message:title + name + sha512(content))
 	// 編輯：hmac.sha512(key:password + send_time,message:uuid + title + name + sha512(content))
 	if (!title) return popAlert('Title must not be empty!')
@@ -80,7 +81,7 @@ const savePost = ({state, state: {$data: {title, name, type}}, uuid}) => {
 
 editor.$methods.save = savePost
 
-const edit = ({type, index, data, saved, newPost}) => {
+const edit = ({type, uuid, data, saved, newPost}) => {
 	const editorConfig = {
 		element: editor.$refs.editor,
 		spellChecker: false,
@@ -93,7 +94,7 @@ const edit = ({type, index, data, saved, newPost}) => {
 	inform()
 	editor.$data = data
 	editor.$data.type = type
-	editor.$data.index = index
+	editor.$data.uuid = uuid
 	if (editor.mde) {
 		editor.mde.toTextArea()
 		editor.mde = null
