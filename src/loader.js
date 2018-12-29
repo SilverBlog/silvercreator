@@ -67,7 +67,7 @@ const contents = [
 ]
 
 const getPosts = (cb) => {
-	axios.post(`${localStorage.getItem('site')}/control/get_list/post`)
+	axios.post(`${localStorage.getItem('site')}/control/v2/get/list/post`)
 	.then(resp => resp.data)
 	.then((data) => {
 		inform()
@@ -119,7 +119,7 @@ const editPage = (data, index) => {
 }
 
 const getPages = (cb) => {
-	axios.post(`${localStorage.getItem('site')}/control/get_list/menu`)
+	axios.post(`${localStorage.getItem('site')}/control/v2/get/list/menu`)
 	.then(resp => resp.data)
 	.then((data) => {
 		// console.log(data)
