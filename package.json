@@ -3,11 +3,12 @@
   "version": "1.2.0",
   "silver_api_version": 3,
   "description": "SilverBlog management tool",
-  "main": "dist/main.min.js",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "rollup -c ./config/rollup.dev.js -w",
     "build": "cross-env NODE_ENV=production rollup -c ./config/rollup.prod.js",
-    "lint": "eslint --ext .js src"
+    "lint": "eslint --ext .js src",
+    "electron": "electron ."
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "cross-env": "^5.2.0",
     "cssnano": "^3.10.0",
     "eft-parser": "^0.8.2",
+    "electron": "^4.0.0",
     "eslint": "^5.11.1",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^10.0.0",
