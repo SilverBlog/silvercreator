@@ -19,7 +19,7 @@ build:
 
 deploy_github:
   dependencies:
-    - build
+  - build
   stage: deploy
   only:
   - master
@@ -30,7 +30,8 @@ deploy_github:
   - chmod 0600 deploy.key
   - ssh-add deploy.key
   - git clone git@github.com:SilverBlog/silvercreator.github.io.git silvercreator
-  - cp -r dist/* silvercreator/
+  - cd silvercreator
+  - cp -r ../public/* ./
   #- git push --set-upstream git@github.com:SilverBlog/silvercreator.github.io.git HEAD:refs/heads/$CI_COMMIT_REF_NAME
   - git push --set-upstream git@github.com:SilverBlog/silvercreator.github.io.git HEAD:refs/heads/master
 
