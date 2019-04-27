@@ -147,12 +147,15 @@ let login = null
 const enter = ({value}) => {
 	if (gState.fetching) return popAlert('Please wait...')
 	popAlert('Loading...')
+	let origin = ''
 	try {
-		localStorage.setItem('site', `https://${(new URL(value)).host}`)
+		const url = new URL(value)
+		url.protocol = 'https'
+		origin = url.origin
 	} catch (e) {
-		popAlert('Invalid URL')
-		throw e
+		origin = `https://${value}`
 	}
+	localStorage.setItem('site', origin)
 	getPosts()
 	getPages()
 	gState.fetching = true
