@@ -17,10 +17,30 @@ pages:
       - node_modules
     key: project
 
+deploy_github:
+  dependencies:
+    - build
+  stage: deploy
+  only:
+  - master
+  - hmac
+  script:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" > deploy.key
+  - chmod 0600 deploy.key
+  - ssh-add deploy.key
+  - git clone git@github.com:SilverBlog/silvercreate.github.io.git silvercreator
+  - cp -r dist/* silvercreator/
+  #- git push --set-upstream git@github.com:SilverBlog/silvercreator.github.io.git HEAD:refs/heads/$CI_COMMIT_REF_NAME
+  - git push --set-upstream git@github.com:SilverBlog/silvercreator.github.io.git HEAD:refs/heads/master
+
 release_github:
   stage: deploy
-  image: docker.reallserver.cn/public/docker-git
   only:
   - master
   script:
-  - git push --set-upstream https://${github_key}@github.com/SilverBlogTeam/silvercreator.git HEAD:master
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" > deploy.key
+  - chmod 0600 deploy.key
+  - ssh-add deploy.key
+  - git push --set-upstream git@github.com:SilverBlog/silvercreator.github.io.git HEAD:refs/heads/$CI_COMMIT_REF_NAME
