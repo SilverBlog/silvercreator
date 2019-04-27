@@ -32,6 +32,8 @@ deploy_github:
   - git clone git@github.com:SilverBlog/silvercreator.github.io.git silvercreator
   - cd silvercreator
   - cp -r ../public/* ./
+  - git add .
+  - git commit -m $(date "+%Y%m%d%H%M%S")
   #- git push --set-upstream git@github.com:SilverBlog/silvercreator.github.io.git HEAD:refs/heads/$CI_COMMIT_REF_NAME
   - git push --set-upstream git@github.com:SilverBlog/silvercreator.github.io.git HEAD:refs/heads/master
 
