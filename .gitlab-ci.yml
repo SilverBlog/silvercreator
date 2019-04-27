@@ -2,7 +2,7 @@ stages:
   - build
   - deploy
 
-pages:
+build:
   stage: build
   image: node:latest
   script:
