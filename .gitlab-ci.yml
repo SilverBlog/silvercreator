@@ -17,27 +17,46 @@ build:
       - node_modules
     key: project
 
-deploy_github:
+deploy_master_github:
   dependencies:
   - build
   stage: deploy
   only:
   - master
-  - hmac
   script:
   - eval $(ssh-agent -s)
   - echo "$SSH_PRIVATE_KEY" > deploy.key
   - chmod 0600 deploy.key
   - ssh-add deploy.key
-  - git clone git@github.com:SilverBlog/silvercreator.github.io.git silvercreator
+  - git clone git@github.com:silvercreator/silvercreator-release.git silvercreator
   - cd silvercreator
   - cp -r ../public/* ./
   - git config --global user.email "reall_network@hotmail.com"
   - git config --global user.name ${CI_RUNNER_DESCRIPTION}
   - git add .
   - git commit -m $(date "+%Y%m%d%H%M%S")
-  #- git push --set-upstream git@github.com:SilverBlog/silvercreator.github.io.git HEAD:refs/heads/$CI_COMMIT_REF_NAME
-  - git push --set-upstream git@github.com:SilverBlog/silvercreator.github.io.git HEAD:refs/heads/master
+  - git push --set-upstream git@github.com:silvercreator/silvercreator-release.git HEAD:refs/heads/master
+
+deploy_hmac_github:
+  dependencies:
+  - build
+  stage: deploy
+  only:
+  - hmac
+  script:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" > deploy.key
+  - chmod 0600 deploy.key
+  - ssh-add deploy.key
+  - git clone git@github.com:silvercreator/silvercreator-beta.git silvercreator
+  - cd silvercreator
+  - cp -r ../public/* ./
+  - git config --global user.email "reall_network@hotmail.com"
+  - git config --global user.name ${CI_RUNNER_DESCRIPTION}
+  - git add .
+  - git commit -m $(date "+%Y%m%d%H%M%S")
+  - git push --set-upstream git@github.com:silvercreator/silvercreator-beta.git HEAD:refs/heads/master
+
 
 release_github:
   stage: deploy
