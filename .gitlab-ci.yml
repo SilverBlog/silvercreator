@@ -28,14 +28,14 @@ deploy_master_github:
   - echo "$SSH_PRIVATE_KEY" > deploy.key
   - chmod 0600 deploy.key
   - ssh-add deploy.key
-  - git clone git@github.com:silvercreator/silvercreator-release.git silvercreator
+  - git clone git@github.com:silvercreator-publish/silvercreator-release.git silvercreator
   - cd silvercreator
   - cp -r ../public/* ./
   - git config --global user.email "reall_network@hotmail.com"
   - git config --global user.name ${CI_RUNNER_DESCRIPTION}
   - git add .
   - git commit -m $(date "+%Y%m%d%H%M%S")
-  - git push --set-upstream git@github.com:silvercreator/silvercreator-release.git HEAD:refs/heads/master
+  - git push --set-upstream git@github.com:silvercreator-publish/silvercreator-release.git HEAD:refs/heads/master
 
 deploy_hmac_github:
   dependencies:
@@ -48,14 +48,14 @@ deploy_hmac_github:
   - echo "$SSH_PRIVATE_KEY" > deploy.key
   - chmod 0600 deploy.key
   - ssh-add deploy.key
-  - git clone git@github.com:silvercreator/silvercreator-beta.git silvercreator
+  - git clone git@github.com:silvercreator-publish/silvercreator-beta.git silvercreator
   - cd silvercreator
   - cp -r ../public/* ./
   - git config --global user.email "reall_network@hotmail.com"
   - git config --global user.name ${CI_RUNNER_DESCRIPTION}
   - git add .
   - git commit -m $(date "+%Y%m%d%H%M%S")
-  - git push --set-upstream git@github.com:silvercreator/silvercreator-beta.git HEAD:refs/heads/master
+  - git push --set-upstream git@github.com:silvercreator-publish/silvercreator-beta.git HEAD:refs/heads/master
 
 
 release_github:
