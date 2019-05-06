@@ -22,7 +22,7 @@ pages:
   - build
   stage: deploy
   script:
-  - mv dist pulbic
+  - mv dist public
   artifacts:
     paths:
     - public
