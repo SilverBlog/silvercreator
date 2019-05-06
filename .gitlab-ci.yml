@@ -2,7 +2,7 @@ stages:
   - build
   - deploy
 
-pages:
+build:
   stage: build
   image: node:latest
   script:
@@ -16,6 +16,21 @@ pages:
     paths:
       - node_modules
     key: project
+
+
+pages:
+  dependencies:
+  - build
+  stage: deploy
+  artifacts:
+    paths:
+    - public
+  cache:
+    paths:
+      - node_modules
+    key: project
+
+
 
 deploy_master_github:
   dependencies:
