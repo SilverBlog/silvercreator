@@ -48,7 +48,7 @@ deploy_master_github:
   - git config --global user.name ${CI_RUNNER_DESCRIPTION}
   - git add .
   - git commit -m $(date "+%Y%m%d%H%M%S")
-  - git push --set-upstream git@github.com:silvercreator-publish/silvercreator-elease.git HEAD:refs/heads/master
+  - git push --set-upstream git@github.com:silvercreator-publish/silvercreator-release.git HEAD:refs/heads/master
 
 
 release_github:
