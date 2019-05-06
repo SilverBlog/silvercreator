@@ -20,7 +20,7 @@ build:
 pages:
   dependencies:
   - build
-  stage: deploy
+  stage: build
   script:
   - mv dist public
   artifacts:
