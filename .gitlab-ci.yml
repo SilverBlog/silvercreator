@@ -8,7 +8,6 @@ build:
   script:
   - npm install
   - npm run build
-  - mv dist public
   artifacts:
     paths:
     - public
@@ -22,6 +21,8 @@ pages:
   dependencies:
   - build
   stage: deploy
+  script:
+  - mv dist pulbic
   artifacts:
     paths:
     - public
@@ -45,7 +46,7 @@ deploy_master_github:
   - ssh-add deploy.key
   - git clone git@github.com:silvercreator-publish/silvercreator-release.git silvercreator
   - cd silvercreator
-  - cp -r ../public/* ./
+  - cp -r ../dist/* ./
   - git config --global user.email "reall_network@hotmail.com"
   - git config --global user.name ${CI_RUNNER_DESCRIPTION}
   - git add .
