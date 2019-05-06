@@ -1,5 +1,6 @@
 stages:
   - build
+  - page
   - deploy
 
 build:
@@ -20,7 +21,7 @@ build:
 pages:
   dependencies:
   - build
-  stage: build
+  stage: page
   script:
   - mv dist public
   artifacts:
