@@ -10,7 +10,7 @@ build:
   - npm run build
   artifacts:
     paths:
-    - public
+    - dist
   cache:
     paths:
       - node_modules
@@ -26,10 +26,6 @@ pages:
   artifacts:
     paths:
     - public
-  cache:
-    paths:
-      - node_modules
-    key: project
 
 
 
