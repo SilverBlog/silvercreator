@@ -21,7 +21,7 @@ build:
 deploy_master_github:
   dependencies:
   - build
-  stage: deploy
+  stage: page
   only:
   - master
   script:
