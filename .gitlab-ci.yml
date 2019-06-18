@@ -9,30 +9,18 @@ build:
   script:
   - npm install
   - npm run build
+  - mv dist public
   artifacts:
     paths:
-    - dist
+    - public
   cache:
     paths:
       - node_modules
     key: project
 
-
-pages:
-  dependencies:
-  - build
-  stage: page
-  script:
-  - mv dist public
-  artifacts:
-    paths:
-    - public
-
-
-
 deploy_master_github:
   dependencies:
-  - pages
+  - build
   stage: deploy
   only:
   - master
