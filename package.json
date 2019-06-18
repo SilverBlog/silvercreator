@@ -1,13 +1,14 @@
 {
   "name": "silver-creator",
-  "version": "1.1.1-alpha.1",
-  "silver_api_version": 2,
+  "version": "1.2.0",
+  "silver_api_version": 3,
   "description": "SilverBlog management tool",
-  "main": "dist/main.min.js",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "rollup -c ./config/rollup.dev.js -w",
-    "build": "NODE_ENV=production rollup -c ./config/rollup.prod.js",
-    "lint": "eslint --ext .js src"
+    "build": "cross-env NODE_ENV=production rollup -c ./config/rollup.prod.js",
+    "lint": "eslint --ext .js src",
+    "electron": "electron ."
   },
   "repository": {
     "type": "git",
@@ -28,9 +29,12 @@
   "devDependencies": {
     "chalk": "^2.1.0",
     "chokidar": "^1.7.0",
+    "cross-env": "^5.2.0",
     "cssnano": "^3.10.0",
-    "eslint": "^4.7.0",
-    "postcss-cssnext": "^3.0.2",
+    "eft-parser": "^0.8.2",
+    "electron": "^4.0.0",
+    "eslint": "^5.11.1",
+    "postcss-cssnext": "^3.1.0",
     "postcss-import": "^10.0.0",
     "postcss-modules": "^0.8.0",
     "postcss-nested": "^2.1.2",
@@ -38,11 +42,11 @@
     "rollup": "^0.49.2",
     "rollup-plugin-buble": "^0.15.0",
     "rollup-plugin-commonjs": "^8.2.1",
-    "rollup-plugin-eft": "^0.2.26",
+    "rollup-plugin-eft": "^0.3.0",
     "rollup-plugin-eslint": "^4.0.0",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-livereload": "^0.6.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-postcss": "^0.5.5",
     "rollup-plugin-progress": "^0.4.0",
     "rollup-plugin-replace": "^2.0.0",
@@ -53,7 +57,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "blueimp-md5": "^2.10.0",
-    "ef-core": "^0.4.1-beta.2",
+    "crypto-js": "^3.1.9-1",
+    "ef-core": "^0.8.1",
     "marked": "^0.3.17",
     "neonclear": "0.1.0-alpha.2",
     "simplemde": "^1.11.2",

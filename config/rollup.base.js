@@ -106,6 +106,7 @@ export default {
 			combineStyleTags: true
 		}),
 		replace({
+			'process.env.NODE_ENV': `'${process.env.NODE_ENV || 'development'}'`,
 			ENV: `'${process.env.NODE_ENV || 'development'}'`
 		}),
 		buble({

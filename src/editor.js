@@ -6,8 +6,9 @@ import getKey from './get_key.js'
 import { popAlert } from './alert.js'
 import SimpleMDE from 'simplemde'
 import { inform, exec } from 'ef-core'
-import md5 from 'blueimp-md5'
 import axios from 'axios'
+import hmac from 'crypto-js/hmac-sha512'
+import sha512 from 'crypto-js/sha512'
 
 import gState from './state.js'
 
@@ -25,22 +26,31 @@ const editor = new tpl({
 	}
 })
 
-const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
+const savePost = ({state, state: {$data: {title, name, type, uuid}}}) => {
+	console.log(state)
+	// 發布：hmac.sha512(key:password + send_time,message:title + name + sha512(content))
+	// 編輯：hmac.sha512(key:password + send_time,message:uuid + title + name + sha512(content))
 	if (!title) return popAlert('Title must not be empty!')
-	let postURL = `${localStorage.getItem('site')}/control/`
-	if (value === -1) postURL += 'new'
-	else postURL += `edit/${type}`
+	let postURL = `${localStorage.getItem('site')}/control/v2/`
+	if (uuid) {
+		postURL += `edit/${type}`
+	} else {
+		postURL += 'new'
+	}
 	const save = (key) => {
+		const now = new Date().getTime()
 		const content = state.mde.value()
+		const sign = `${hmac(`${uuid || ""}${title}${name}${sha512(content)}`, `${key}${now}`)}`
 
 		if (gState.fetching) return popAlert('Please wait...')
 		gState.fetching = true
 		axios.post(postURL, {
-			'post_id': parseInt(value, 10),
+			'post_uuid': uuid,
 			title,
 			name,
 			content,
-			sign: md5(`${title}${key}`)
+			sign,
+			"send_time": now
 		})
 		.then(resp => resp.data)
 		.then((data) => {
@@ -51,7 +61,7 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 				state.mde.toTextArea()
 				state.mde = null
 				if (type === 'post') return getPosts(() => {
-					if (value === -1) return popAlert('Post added successfully')
+					if (uuid === null) return popAlert('Post added successfully')
 					popAlert('Post updated successfully.')
 				})
 				getPosts()
@@ -71,7 +81,7 @@ const savePost = ({state, state: {$data: {title, name, type}}, value}) => {
 
 editor.$methods.save = savePost
 
-const edit = ({type, index, data, saved, newPost}) => {
+const edit = ({type, uuid, data, saved, newPost}) => {
 	const editorConfig = {
 		element: editor.$refs.editor,
 		spellChecker: false,
@@ -84,7 +94,7 @@ const edit = ({type, index, data, saved, newPost}) => {
 	inform()
 	editor.$data = data
 	editor.$data.type = type
-	editor.$data.index = index
+	editor.$data.uuid = uuid
 	if (editor.mde) {
 		editor.mde.toTextArea()
 		editor.mde = null

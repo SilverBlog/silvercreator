@@ -14,5 +14,5 @@
 				@click = cancel
 				.Cancel
 			>span
-				@click = save:{{index}}
+				@click = save
 				.Save
