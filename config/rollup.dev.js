@@ -1,34 +1,37 @@
+// Import plugins
+import copy from 'rollup-plugin-copy-glob'
 // Import base config
 import base from './rollup.base'
 // Import dev plugins
-import serve from 'rollup-plugin-serve'
-import livereload from 'rollup-plugin-livereload'
+import liveServer from 'rollup-plugin-live-server'
 
-const { input, name, plugins, devPath, bundle, external, globals } = base
+const {input, name, format, copyOptions, plugins, devPath, bundle, external, globals} = base
 
-// Add browser-sync plugin
-plugins.push(serve({
+plugins.push(liveServer({
+	root: './dev',
 	open: true,
-	contentBase: 'test'
-}),
-livereload({
-	watch: 'test'
+	file: 'index.html',
+	ignore: '**/*.map'
 }))
+
+console.log(format)
 
 const config = {
 	input,
+	external,
 	output: {
 		name,
+		format,
 		file: `${devPath}/${bundle}.js`,
-		format: 'iife',
 		sourcemap: true,
+		globals
 	},
-	plugins,
-	external,
-	globals,
+	plugins: [
+		copy(...copyOptions, {verbose: true, watch: true}),
+		...plugins
+	],
 	watch: {
-		chokidar: true,
-		include: 'src/'
+		include: ['src/**']
 	}
 }
 

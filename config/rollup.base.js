@@ -1,73 +1,56 @@
+import del from 'del'
 import path from 'path'
 import chalk from 'chalk'
 
 // Rollup plugins
-import buble from 'rollup-plugin-buble'
-import eslint from 'rollup-plugin-eslint'
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import replace from 'rollup-plugin-replace'
-import uglify from 'rollup-plugin-uglify'
+import buble from '@rollup/plugin-buble'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import replace from '@rollup/plugin-replace'
 import progress from 'rollup-plugin-progress'
-import json from 'rollup-plugin-json'
+import json from '@rollup/plugin-json'
 import eft from 'rollup-plugin-eft'
 import postcss from 'rollup-plugin-postcss'
-import string from 'rollup-plugin-string'
+import inject from '@rollup/plugin-inject'
+import {eslint} from 'rollup-plugin-eslint'
+import {uglify} from 'rollup-plugin-uglify'
 
 // Postcss plugins
-import postcssModules from 'postcss-modules'
-import postcssImport from 'postcss-import'
+// import postcssModules from 'postcss-modules'
 import simplevars from 'postcss-simple-vars'
 import nested from 'postcss-nested'
-import cssnext from 'postcss-cssnext'
-import cssnano from 'cssnano'
+import postcssPresetEnv from 'postcss-preset-env'
 
-// CSS variables
 import colors from './colors.config.js'
 
 // ef configuration
 import efConfig from './ef.config.js'
 const {
+	efCoreModule,
 	input,
 	name,
+	format,
 	bundle,
 	devPath,
-	proPath
+	proPath,
+	copyOptions,
+	external,
+	globals
 } = efConfig
 
-// Log build environment
 console.log('Target:', chalk.bold.green(process.env.NODE_ENV || 'development'))
-switch (process.env.BUILD_ENV) {
-	case 'DEMO': {
-		console.log(chalk.cyan`
-+------------+
-| DEMO BUILD |
-+------------+
-`)
-		break
-	}
-	case 'CI': {
-		console.log(chalk.green`
-+----------+
-| CI BUILD |
-+----------+
-`)
-		break
-	}
-	default: {
-		console.log(chalk.yellow`
-+--------------+
-| NORMAL BUILD |
-+--------------+
-`)
-	}
-}
 
-const cssExportMap = {}
+// Clear previous builds files
+if (process.env.NODE_ENV === 'production') del.sync([`${proPath}/**`])
+else del.sync([`${devPath}dev/**`])
 
 export default {
 	input,
 	name,
+	format,
+	copyOptions,
+	external,
+	globals,
 	bundle: path.normalize(bundle),
 	devPath: path.normalize(devPath),
 	proPath: path.normalize(proPath),
@@ -77,50 +60,42 @@ export default {
 		}),
 		eslint(),
 		resolve({
-			jsnext: true,
-			main: true,
 			browser: true,
+			extensions: ['.mjs', '.js', '.jsx', '.json', '.node']
 		}),
-		commonjs(),
 		json(),
-		string({
-			include: ['**/*.efml', '**/*.tjs']
-		}),
 		eft(),
 		postcss({
+			extract: true,
+			modules: true,
+			minimize: process.env.NODE_ENV === 'production',
+			sourceMap: process.env.NODE_ENV !== 'production',
 			plugins: [
-				simplevars({ variables: colors }),
+				simplevars({variables: colors}),
 				nested(),
-				cssnext({ warnForDuplicates: false }),
-				postcssImport(),
-				postcssModules({
-					getJSON(id, exportTokens) {
-						cssExportMap[id] = exportTokens
-					}
-				}),
-				cssnano()
-			],
-			getExport(id) {
-				return cssExportMap[id]
-			},
-			combineStyleTags: true
-		}),
-		replace({
-			'process.env.NODE_ENV': `'${process.env.NODE_ENV || 'development'}'`,
-			ENV: `'${process.env.NODE_ENV || 'development'}'`
+				postcssPresetEnv({ warnForDuplicates: false })
+			]
 		}),
 		buble({
 			transforms: {
 				modules: false,
 				dangerousForOf: true
 			},
-			objectAssign: 'Object.assign'
+			objectAssign: 'Object.assign',
+			jsx: `${efCoreModule}.createElement`,
+			jsxFragment: `${efCoreModule}.Fragment`
+		}),
+		inject({
+			include: ['**/*.js', '**/*.jsx'],
+			exclude: 'node_modules/**',
+			modules: {
+				[efCoreModule]: ['ef-core', '*']
+			}
+		}),
+		commonjs(),
+		replace({
+			'process.env.NODE_ENV': `'${process.env.NODE_ENV}'`
 		}),
 		(process.env.NODE_ENV === 'production' && uglify())
-	],
-	external: ['axios', 'simplemde'],
-	globals: {
-		axios: 'axios',
-		simplemde: 'SimpleMDE'
-	}
+	]
 }

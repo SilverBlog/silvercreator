@@ -145,6 +145,7 @@ const getPages = (cb) => {
 let login = null
 
 const enter = ({value}) => {
+	if (!value) return
 	if (gState.fetching) return popAlert('Please wait...')
 	popAlert('Loading...')
 	let origin = ''
