@@ -59,7 +59,7 @@
     "rollup-plugin-uglify": "^6.0.4"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "blueimp-md5": "^2.13.0",
     "crypto-js": "^4.0.0",
     "ef-core": "^0.10.7",
