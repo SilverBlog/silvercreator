@@ -63,7 +63,7 @@
     "blueimp-md5": "^2.13.0",
     "crypto-js": "^4.0.0",
     "ef-core": "^0.10.7",
-    "marked": "^1.0.0",
+    "marked": "^4.0.10",
     "neonclear": "0.1.0-alpha.4",
     "simplemde": "^1.11.2",
     "url-polyfill": "^1.1.8"
