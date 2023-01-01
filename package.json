@@ -45,7 +45,7 @@
     "electron": "^8.2.3",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
-    "postcss-modules": "^2.0.0",
+    "postcss-modules": "^6.0.0",
     "postcss-nested": "^4.2.1",
     "postcss-preset-env": "^6.7.0",
     "postcss-simple-vars": "^5.0.2",
@@ -54,7 +54,7 @@
     "rollup-plugin-eft": "^0.10.6",
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-live-server": "^1.0.3",
-    "rollup-plugin-postcss": "^3.1.1",
+    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-progress": "^1.1.1",
     "rollup-plugin-uglify": "^6.0.4"
   },
